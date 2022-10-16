@@ -7,8 +7,9 @@ import '../typedef.js'
 
 import expandData from './common.js';
 
-const langs = {},
-	sanitize = (str = '') =>
+import { langs } from './langs.js'
+
+const sanitize = (str = '') =>
 		str.replaceAll('&', '&#38;').replaceAll?.('<', '&lt;').replaceAll?.('>', '&gt;'),
 	/**
 	 * @function
@@ -40,7 +41,7 @@ export async function tokenize(src, lang, token) {
 			i = 0,
 			data = typeof lang === 'string' ? (await (langs[lang] ??= import(`./languages/${lang}.js`))) : lang,
 			// make a fast shallow copy to bee able to splice lang without change the original one
-			arr = [...typeof lang === 'string' ? data.default : lang.sub];
+			arr = [...typeof lang === 'string' ? data : lang.sub];
 
 		while (i < src.length) {
 			first.index = null;
